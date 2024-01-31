@@ -4,8 +4,9 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
-
+//The amount of wrong guessed letters before game over.
 const int gameover = 6;
 
 void flushInputBuffer();
@@ -13,13 +14,16 @@ void hangmanDraw(int);
 
 int main() {
 
-    srand(time(NULL));
-    char choice; 
+    srand(time(NULL)); 
+    //saves the users answer about whether they want to continue game or not.
+    char game_continue_choice; 
     
-    
+    // A do-while that runs as long as the contents of variable choice is something other than 'n'.
    do {
         char user_letter;
         int right_letters = 0, wrong_guesses = 0, index = 0;
+
+        // Two dimensional array containing words that are then chosen randomly with right_word_index.
         char right_word[][12] = {"imaginary", "astronaut", "ship", "steam", "shovel", "goon", "hangman", "wild", "sarcasm", "posse"}; 
         int right_word_index = rand() % 10;
         
@@ -42,30 +46,26 @@ int main() {
 
             bool wrong_letter = true;
             bool already_guessed = false;
-            //bool already_in_the_word = false;
             char guessed_letters[10];
 
 
-            //Prompts the user to give a letter, reads it with scanf, then empties the buffer in case more letters than one were given.
+            //Prompts the user to give a letter, reads it with scanf, then empties the buffer in case more characters than one were given.
             printf("\nGuess a letter\n");
-            scanf("%c", &user_letter);
-            flushInputBuffer();
+            do {
+                scanf("%c", &user_letter);
+                flushInputBuffer();
+                if (isalpha(user_letter) == 0) {
+                    printf("Please enter a letter.\n");
+                }
+            } while (isalpha(user_letter) != 1);
 
-            //check että näkee että input on tallentunu oikeen.
-            printf("\n%c\n", user_letter);
 
              
-             //Compares the user input to an array of guessed letters. If the read letter matches, already_guessed true.
-             //Compares the user input to the guessed word. If there is a match, already_in_the_word is true. 
+             //Compares the user input to an array of already guessed letters. If the read letter matches, already_guessed true. 
             for ( int i = 0; i < index ; i++) {
                 if (user_letter == guessed_letters[i]) {
                     already_guessed = true;
                 }
-                /*
-                if (user_letter == guessed_word[i]) {
-                    already_in_the_word = true;
-                }
-                */
             }
 
             /* Jos ohjelma ei ole käynyt kummassakaan ylemmässä if lauseessa, ja molemmat booleanit ovat edelleen
@@ -77,13 +77,11 @@ int main() {
                 index++;
             }
                 
-            //miksi ihmeessä tää on for loopissa?
-            for (int i = 0; i < word_length ; i++) { 
-                if (already_guessed == true)  { 
-                    printf("\nYou have guessed that already."); 
-                    already_guessed = true;
-                }
+            if (already_guessed == true)  { 
+                printf("\nYou have guessed that already."); 
+                already_guessed = true;
             }
+            
 
             printf("\nGuessed letters: ");
             for (int i = 0; i < index ; i++) {
@@ -124,10 +122,10 @@ int main() {
         } else {
             printf("\nTough luck, you lost! Do you want to play again?(Y/N)");
         }
-        scanf("%c", &choice);
+        scanf("%c", &game_continue_choice);
         flushInputBuffer();
 
-    } while (choice != 'n');
+    } while (game_continue_choice != 'n');
 
     return 0;
 }
@@ -209,4 +207,4 @@ void hangmanDraw(int wrong_guesses) {
 
 }
 
-//Pitäisikö vielä kerran yrittää sitä etteivät oikeat kirjaimet tulisi guessed letter listaan?
+//Pitäisikö vielä kerran yrittää sitä etteivät oikeat kirjaimet tulisi guessed letter listaan? Testaa commit
