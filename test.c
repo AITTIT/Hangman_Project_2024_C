@@ -13,14 +13,20 @@ int main() {
     char user_letter;
 
      printf("\nGuess a letter\n");
-    do {
+    //do {
         scanf("%c", &user_letter);
         flushInputBuffer();
 
+    /*    if (isalpha(user_letter) == 0) {
+            printf("Please enter a letter.\n");
+        }
+    */
+        char letter = isalpha(user_letter);
+        printf("%c", letter);
         
-    } while (isalpha(user_letter) != 1);
+    //} while (isalpha(user_letter) != 1);
 
-    printf("%c", user_letter);
+   // printf("%c", user_letter);
 
 
 
