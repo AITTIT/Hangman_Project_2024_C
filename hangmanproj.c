@@ -15,25 +15,32 @@ void hangmanDraw(int);
 int main() {
 
     srand(time(NULL)); 
-    //saves the users answer about whether they want to continue game or not.
+    //saves the users answer about whether they want to continue playing or not.
     char game_continue_choice; 
     
-    // A do-while that runs as long as the contents of variable choice is something other than 'n'.
+    // A do-while that runs as long as the contents of variable game_continue_choice is something other than 'n'.
    do {
+        //The user input is saved into this.
         char user_letter;
-        int right_letters = 0, wrong_guesses = 0, index = 0;
+
+        int right_letters = 0, wrong_guesses = 0;
 
         // Two dimensional array containing words that are then chosen randomly with right_word_index.
         char right_word[][12] = {"imaginary", "astronaut", "ship", "steam", "shovel", "goon", "hangman", "wild", "sarcasm", "posse"}; 
         int right_word_index = rand() % 10;
         
-        //checkki jolla näkee minkä sanan random valitsee.
-        printf("%d\n", right_word_index);
 
+        //Variable that has the length of the chosen right word saved. Onko tätä järkeä tehdä vai pitäskö sijottaa vaan tuo strlen joka paikkaan?
         int word_length = strlen(right_word[right_word_index]);
+        // A char array that is given the same length as the right word.
         char guessed_word[word_length];
+        // Char array where the guessed letters will be saved into.
+        char guessed_letters[26];
+        // guessed_letters_index keeps tally on the amount of actual letters saved inside guessed_letters
+        int guessed_letters_index = 0;
         
-        //assigns the guessed word letters with an underscore and prints them so the user sees the length of the word.
+        // Loop that saves an underscore into every space in the char array guessed_word.
+        // Also prints out the underscores for the user to see the length of the word.
         for (int i = 0; i < word_length; i++) {
             guessed_word[i] = '_';
             printf("%c", guessed_word[i]);
@@ -46,85 +53,90 @@ int main() {
 
             bool wrong_letter = true;
             bool already_guessed = false;
-            char guessed_letters[10];
-
 
             //Prompts the user to give a letter, reads it with scanf, then empties the buffer in case more characters than one were given.
+            // If the user does not give a lowercase letter, loops back.
             printf("\nGuess a letter\n");
             do {
                 scanf("%c", &user_letter);
                 flushInputBuffer();
-                if (isalpha(user_letter) == 0) {
-                    printf("Please enter a letter.\n");
+                if (isalpha(user_letter) != 2) {
+                    printf("Please enter a lowercase letter.\n");
                 }
-            } while (isalpha(user_letter) != 1);
+            } while (isalpha(user_letter) != 2);
 
-
-             
-             //Compares the user input to an array of already guessed letters. If the read letter matches, already_guessed true. 
-            for ( int i = 0; i < index ; i++) {
+             //Compares the user input to an array of already guessed letters. If there is a match, already_guessed true. 
+            for ( int i = 0; i < guessed_letters_index ; i++) {
                 if (user_letter == guessed_letters[i]) {
                     already_guessed = true;
                 }
             }
 
-            /* Jos ohjelma ei ole käynyt kummassakaan ylemmässä if lauseessa, ja molemmat booleanit ovat edelleen
-            arvoltaan false, tähän iffiin mennään ja käyttäjän antama kirjain lisätään arvattuihin kirjaimiin.
-            Sen jälkeen indexiin lisätään yksi, jolloin seuraava uusi kirjain lisätään seuraavaan paikkaan.
-            */
+            // If the already_guessed boolean has stayed false, the user_letter is saved into guessed_letters array
+            // and the index is incremented by one.
             if (already_guessed == false) {
-                guessed_letters[index] = user_letter;
-                index++;
-            }
-                
-            if (already_guessed == true)  { 
-                printf("\nYou have guessed that already."); 
-                already_guessed = true;
+                guessed_letters[guessed_letters_index] = user_letter;
+                guessed_letters_index++;
             }
             
-
+            //If already_guessed has become true, informs the user.
+            if (already_guessed == true)  { 
+                printf("\nYou have guessed that already."); 
+            }
+            
+            //Prints out the letters that have been already guessed.
             printf("\nGuessed letters: ");
-            for (int i = 0; i < index ; i++) {
+            for (int i = 0; i < guessed_letters_index ; i++) {
                 printf(" %c", guessed_letters[i]);
             }
             
-
+            //If already_guessed has stayed false, compares the user_letter to the right_word array. 
+            // If there is a match, the user_letter is saved into the guessed_word,
+            //and it replaces the underscore. right_letters counter is incremented by one,
+            // and the boolean wrong_letter becomes false.
             if (already_guessed == false) {            
                 for (int i = 0; i < word_length ; i++) {
                     if (user_letter == right_word[right_word_index][i]) {
-                        guessed_word[i] = right_word[right_word_index][i];
+                        guessed_word[i] = user_letter;
                         right_letters++;
                         wrong_letter = false;
                     }
                 }
             }
 
-           
+           //Entered only if the user input is new and already_guessed has stayed false.
             if (already_guessed == false) {    
+                //if wrong_letter has turned false, this is printed.
                 if (wrong_letter == false) {
                     printf("\nYou guessed right!");
                 }
+                //VOISIKO OLLA VAIN IF ELSE?
+                // if wrong_letter is true, this is printed and the wrong_guesses counter is incremented by one.
                 if (wrong_letter == true) {
                     printf("\nYou guessed wrong.");
                     wrong_guesses++; 
                 } 
             }
             printf("\n");
+            //Prints the guessed word with possible new letters.
             for (int i = 0; i < word_length ; i++) {
                 printf("%c", guessed_word[i]);
             }
+            //Calls the hangman function that draws the picture of the hangman.
             hangmanDraw(wrong_guesses);
-        
         }
 
+        //If right_letters matches word_length when the above while-loop is exited,
+        // the player has won. Else the player has lost.
+        //scan function that takes user input, then flusInputBuffer() function to empty the buffer.
         if (right_letters == word_length) {
             printf("\nWell done! Do you want to play again?(y/n)");
         } else {
-            printf("\nTough luck, you lost! Do you want to play again?(Y/N)");
+            printf("\nTough luck, you lost! Do you want to play again?(y/n)");
         }
         scanf("%c", &game_continue_choice);
         flushInputBuffer();
-
+        //Program is exited, if the user ehas entered n, otherwise loop back to start.
     } while (game_continue_choice != 'n');
 
     return 0;
