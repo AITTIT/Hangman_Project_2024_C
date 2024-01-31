@@ -143,12 +143,15 @@ int main() {
 }
 
 
-
+//function that is used after scanf to empty the input buffer in case
+// the user has entered more than one letter.
 void flushInputBuffer() {
     int c;
     while((c = getchar()) != '\n' && c != EOF);
 }
 
+//function that draws the hangman. Depending on the value of wrong_guesses,
+//switch case chooses which iteration of the hangman is printed.
 void hangmanDraw(int wrong_guesses) {
 
     
@@ -218,5 +221,3 @@ void hangmanDraw(int wrong_guesses) {
     }
 
 }
-
-//Pitäisikö vielä kerran yrittää sitä etteivät oikeat kirjaimet tulisi guessed letter listaan? Testaa commit
