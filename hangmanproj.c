@@ -79,15 +79,17 @@ int main() {
                 guessed_letters_index++;
             }
             
-            //If already_guessed has become true, informs the user.
-            if (already_guessed == true)  { 
-                printf("\nYou have guessed that already."); 
-            }
+
             
             //Prints out the letters that have been already guessed.
             printf("\nGuessed letters: ");
             for (int i = 0; i < guessed_letters_index ; i++) {
                 printf(" %c", guessed_letters[i]);
+            }
+
+            //If already_guessed has become true, informs the user.
+            if (already_guessed == true)  { 
+                printf("\nYou have guessed that already."); 
             }
             
             //If already_guessed has stayed false, compares the user_letter to the right_word array. 
