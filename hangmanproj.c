@@ -70,7 +70,7 @@ int main() {
 
             /* Jos ohjelma ei ole käynyt kummassakaan ylemmässä if lauseessa, ja molemmat booleanit ovat edelleen
             arvoltaan false, tähän iffiin mennään ja käyttäjän antama kirjain lisätään arvattuihin kirjaimiin.
-            Sen jälkeen indexiin lisätään yksi, jolloin seuraava uusi kirjain lisätään seuraavaan paikkaan.
+            Sen jälkeen indexiin lisätään yksi, jolloin seuraava uusi kirjain lisätään seuraavaan paikkaan.d,sa.mf.,dmas
             */
             if (already_guessed == false) {
                 guessed_letters[index] = user_letter;
@@ -209,4 +209,4 @@ void hangmanDraw(int wrong_guesses) {
 
 }
 
-//Pitäisikö vielä kerran yrittää sitä etteivät oikeat kirjaimet tulisi guessed letter listaan?
+//Pitäisikö vielä kerran yrittää sitä etteivät oikeat kirjaimet tulisi guessed letter listaan? Testaa commit
