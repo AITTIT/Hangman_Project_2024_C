@@ -14,6 +14,7 @@ void hangmanDraw(int);
 
 int main() {
 
+    // seeds the random number generator.
     srand(time(NULL)); 
     //saves the users answer about whether they want to continue playing or not.
     char game_continue_choice; 
@@ -25,16 +26,16 @@ int main() {
 
         int right_letters = 0, wrong_guesses = 0;
 
-        // Two dimensional array containing words that are then chosen randomly with the help of right_word_index.
+        // A two dimensional array containing words that are then chosen randomly with the help of right_word_index.
         char right_word[][12] = {"imaginary", "astronaut", "ship", "steam", "shovel", "goon", "hangman", "wild", "sarcasm", "posse"}; 
         int right_word_index = rand() % 10;
         
 
-        //Variable that has the length of the chosen right word saved. Onko tätä järkeä tehdä vai pitäskö sijottaa vaan tuo strlen joka paikkaan?
+        //Variable that has the length of the chosen right word saved.
         int word_length = strlen(right_word[right_word_index]);
         // A char array that is given the same length as the right word.
         char guessed_word[word_length];
-        // Char array where the guessed letters will be saved into.
+        // A char array where the guessed letters will be saved into.
         char guessed_letters[26];
         // guessed_letters_index keeps tally on the amount of actual letters saved inside guessed_letters
         int guessed_letters_index = 0;
@@ -81,7 +82,7 @@ int main() {
             
 
             
-            //Prints out the letters that have been already guessed.
+            //Prints out the letters that have already been guessed.
             printf("\nGuessed letters: ");
             for (int i = 0; i < guessed_letters_index ; i++) {
                 printf(" %c", guessed_letters[i]);
@@ -109,7 +110,7 @@ int main() {
            //Entered only if the user input is new and already_guessed has stayed false.
             if (already_guessed == false) {    
                 //if wrong_letter has turned false, "you guessed right!" is printed,
-                 // otherwise "You guessed wrong.", and the wrong_guesses counter is incremented by one.
+                // otherwise "You guessed wrong.", and the wrong_guesses counter is incremented by one.
                 if (wrong_letter == false) {
                     printf("\nYou guessed right!");
                 } else {
