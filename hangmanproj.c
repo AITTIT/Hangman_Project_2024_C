@@ -6,7 +6,7 @@
 #include <string.h>
 #include <ctype.h>
 
-//The amount of wrong guessed letters before game over.
+//The amount of guessed letters that are not in the right word before game over.
 const int gameover = 6;
 
 void flushInputBuffer();
@@ -25,7 +25,7 @@ int main() {
 
         int right_letters = 0, wrong_guesses = 0;
 
-        // Two dimensional array containing words that are then chosen randomly with right_word_index.
+        // Two dimensional array containing words that are then chosen randomly with the help of right_word_index.
         char right_word[][12] = {"imaginary", "astronaut", "ship", "steam", "shovel", "goon", "hangman", "wild", "sarcasm", "posse"}; 
         int right_word_index = rand() % 10;
         
@@ -46,9 +46,9 @@ int main() {
             printf("%c", guessed_word[i]);
         }
 
-        /* A loop that is exited only when the player wins or loses. if the counter right_letters matches the word_length, the user
+        /* A loop that is exited only when the user wins or loses. if the counter right_letters matches the word_length, the user
         has guessed the word and wins. If the counter wrong_guesses is no longer smaller than the integer stored in gameover,
-        the game is over. */
+        there have been too many wrong guesses and the game is over. */
         while (right_letters < word_length && wrong_guesses < gameover) {
 
             bool wrong_letter = true;
@@ -65,7 +65,7 @@ int main() {
                 }
             } while (isalpha(user_letter) != 2);
 
-             //Compares the user input to an array of already guessed letters. If there is a match, already_guessed true. 
+             //Compares the user input to the array of already guessed letters. If there is a match, already_guessed true. 
             for ( int i = 0; i < guessed_letters_index ; i++) {
                 if (user_letter == guessed_letters[i]) {
                     already_guessed = true;
@@ -87,7 +87,7 @@ int main() {
                 printf(" %c", guessed_letters[i]);
             }
 
-            //If already_guessed has become true, informs the user.
+            //If already_guessed has become true, informs the user the following.
             if (already_guessed == true)  { 
                 printf("\nYou have guessed that already."); 
             }
@@ -108,13 +108,11 @@ int main() {
 
            //Entered only if the user input is new and already_guessed has stayed false.
             if (already_guessed == false) {    
-                //if wrong_letter has turned false, this is printed.
+                //if wrong_letter has turned false, "you guessed right!" is printed,
+                 // otherwise "You guessed wrong.", and the wrong_guesses counter is incremented by one.
                 if (wrong_letter == false) {
                     printf("\nYou guessed right!");
-                }
-                //VOISIKO OLLA VAIN IF ELSE?
-                // if wrong_letter is true, this is printed and the wrong_guesses counter is incremented by one.
-                if (wrong_letter == true) {
+                } else {
                     printf("\nYou guessed wrong.");
                     wrong_guesses++; 
                 } 
@@ -129,7 +127,7 @@ int main() {
         }
 
         //If right_letters matches word_length when the above while-loop is exited,
-        // the player has won. Else the player has lost.
+        // the user has won. Else the user has lost.
         //scan function that takes user input, then flusInputBuffer() function to empty the buffer.
         if (right_letters == word_length) {
             printf("\nWell done! Do you want to play again?(y/n)");
@@ -138,7 +136,7 @@ int main() {
         }
         scanf("%c", &game_continue_choice);
         flushInputBuffer();
-        //Program is exited, if the user ehas entered n, otherwise loop back to start.
+        //Program is exited, if the user has entered 'n', otherwise loop back to start.
     } while (game_continue_choice != 'n');
 
     return 0;
@@ -152,7 +150,7 @@ void flushInputBuffer() {
     while((c = getchar()) != '\n' && c != EOF);
 }
 
-//function that draws the hangman. Depending on the value of wrong_guesses,
+//function that draws the hangman. Depending on the value of wrong_guesses variable,
 //switch case chooses which iteration of the hangman is printed.
 void hangmanDraw(int wrong_guesses) {
 
