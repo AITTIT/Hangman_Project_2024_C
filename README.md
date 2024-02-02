@@ -1,6 +1,6 @@
 Hangman
  
-This project was preceded with two weeks of learning the C language on Opikoodia course's C language segment,
+This project was preceded by two weeks of learning the C language on Opikoodia course's C language segment,
 and it aims to showcase the things I have picked up during that time. I felt that the difficulty of the project
 hit a sweet spot where I had the tools to be able to solve the problems presented, while still being
 difficult enough to require some elbow grease.
