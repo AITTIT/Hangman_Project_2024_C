@@ -33,15 +33,19 @@ int main() {
 
         //Variable that has the length of the chosen right word saved.
         int word_length = strlen(right_word[right_word_index]);
+
         // A char array that is given the same length as the right word.
         char guessed_word[word_length];
+
         // A char array where the guessed letters will be saved into.
+        // Array given max size of 26 because that is the amount of letters in the English alphabet.
         char guessed_letters[26];
-        // guessed_letters_index keeps tally on the amount of actual letters saved inside guessed_letters
+
+        // guessed_letters_index keeps tally on the amount of actual letters saved inside guessed_letters.
         int guessed_letters_index = 0;
         
         // Loop that saves an underscore into every space in the char array guessed_word.
-        // Also prints out the underscores for the user to see the length of the word.
+        // Also prints out the underscores in order for the user to see the length of the word.
         for (int i = 0; i < word_length; i++) {
             guessed_word[i] = '_';
             printf("%c", guessed_word[i]);
@@ -55,7 +59,7 @@ int main() {
             bool wrong_letter = true;
             bool already_guessed = false;
 
-            //Prompts the user to give a letter, reads it with scanf, then empties the buffer in case more characters than one were given.
+            // Prompts the user to give a letter, reads it with scanf, then empties the buffer in case more characters than one were given.
             // If the user does not give a lowercase letter, loops back.
             printf("\nGuess a letter\n");
             do {
@@ -151,12 +155,11 @@ void flushInputBuffer() {
     while((c = getchar()) != '\n' && c != EOF);
 }
 
-//function that draws the hangman. Depending on the value of wrong_guesses variable,
+//function that draws the hangman. Depending on the value of wrong_guesses variable integer,
 //switch case chooses which iteration of the hangman is printed.
 void hangmanDraw(int wrong_guesses) {
 
     
-
     switch (wrong_guesses)
     {
     case 0:
